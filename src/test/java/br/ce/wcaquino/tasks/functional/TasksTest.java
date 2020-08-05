@@ -1,23 +1,27 @@
 package br.ce.wcaquino.tasks.functional;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TasksTest {
-	public WebDriver accessApplication() {
-		WebDriver driver = new ChromeDriver();
-		driver.navigate().to("http://localhost:8001/tasks");
+	public WebDriver accessApplication() throws MalformedURLException {
+		ChromeOptions cap = new ChromeOptions();
+		WebDriver driver = new RemoteWebDriver(new URL(" http://192.168.0.102:4444/wd/hub"), cap);
+		driver.navigate().to("http://192.168.0.102:8001/tasks");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
 
 	@Test
-	public void shouldSaveTaskSuccessfully() {
+	public void shouldSaveTaskSuccessfully() throws MalformedURLException {
 		WebDriver driver = accessApplication();
 		
 		try {
@@ -35,7 +39,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotCreateTaskWithoutDescription() {
+	public void shouldNotCreateTaskWithoutDescription() throws MalformedURLException {
 		WebDriver driver = accessApplication();
 		
 		try {
@@ -52,7 +56,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotCreateTaskWithoutDate() {
+	public void shouldNotCreateTaskWithoutDate() throws MalformedURLException {
 		WebDriver driver = accessApplication();
 		
 		try {
@@ -68,7 +72,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void shouldNotCreateTaskWithPastDate() {
+	public void shouldNotCreateTaskWithPastDate() throws MalformedURLException {
 		WebDriver driver = accessApplication();
 		
 		try {
