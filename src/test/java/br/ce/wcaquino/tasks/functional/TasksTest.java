@@ -39,6 +39,28 @@ public class TasksTest {
 	}
 	
 	@Test
+	public void shouldDeleteTaskSuccessfully() throws MalformedURLException {
+		WebDriver driver = accessApplication();
+		
+		try {
+			driver.findElement(By.id("addTodo")).click();
+			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
+			driver.findElement(By.id("dueDate")).sendKeys("20/10/2020");
+			driver.findElement(By.id("saveButton")).click();
+			
+			String message = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Success!", message);
+			
+			driver.findElement(By.xpath("//a[@class=\"btn btn-outline-danger btn-sm\"]")).click();
+			String deleteMessage = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Success!", deleteMessage);
+		} finally {
+			driver.quit();			
+		}
+		
+	}
+	
+	@Test
 	public void shouldNotCreateTaskWithoutDescription() throws MalformedURLException {
 		WebDriver driver = accessApplication();
 		
